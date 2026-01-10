@@ -12,10 +12,7 @@ async function factory (pkgName) {
    *
    * @class
    */
-  class DoboSqlite3 extends this.app.baseClass.Base {
-    static alias = 'dbmysql'
-    static dependencies = ['dobo', 'dobo-knex']
-
+  class DoboPostgresql extends this.app.baseClass.Base {
     constructor () {
       super(pkgName, me.app)
       this.config = {
@@ -24,7 +21,7 @@ async function factory (pkgName) {
       }
     }
   }
-  return DoboSqlite3
+  return DoboPostgresql
 }
 
 export default factory

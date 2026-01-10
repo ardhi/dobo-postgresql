@@ -1,11 +1,11 @@
 import postgresqlFactory from './postgresql.js'
 
 async function redshiftDriverFactory () {
-  const PostgresqlDriver = await postgresqlFactory.call(this)
+  const DoboPostgresqlDriver = this.app.baseClass.DoboPostgresqlDriver ?? (await postgresqlFactory.call(this))
 
-  class RedshiftDriver extends PostgresqlDriver {
-    constructor (plugin, options) {
-      super(plugin)
+  class DoboRedshiftDriver extends DoboPostgresqlDriver {
+    constructor (plugin, name, options) {
+      super(plugin, name, options)
       this.dialect = 'redshift'
     }
 
@@ -15,7 +15,8 @@ async function redshiftDriverFactory () {
     }
   }
 
-  return RedshiftDriver
+  this.app.baseClass.DoboRedshiftDriver = DoboRedshiftDriver
+  return DoboRedshiftDriver
 }
 
 export default redshiftDriverFactory

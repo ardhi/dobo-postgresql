@@ -1,11 +1,11 @@
 import postgresqlFactory from './postgresql.js'
 
 async function cockroachdbDriverFactory () {
-  const PostgresqlDriver = await postgresqlFactory.call(this)
+  const DoboPostgresqlDriver = this.app.baseClass.DoboPostgresqlDriver ?? (await postgresqlFactory.call(this))
 
-  class CockroachdbDriver extends PostgresqlDriver {
-    constructor (plugin, options) {
-      super(plugin)
+  class DoboCockroachdbDriver extends DoboPostgresqlDriver {
+    constructor (plugin, name, options) {
+      super(plugin, name, options)
       this.dialect = 'cockroachdb'
     }
 
@@ -17,7 +17,8 @@ async function cockroachdbDriverFactory () {
     }
   }
 
-  return CockroachdbDriver
+  this.app.baseClass.DoboCockroachdbDriver = DoboCockroachdbDriver
+  return DoboCockroachdbDriver
 }
 
 export default cockroachdbDriverFactory

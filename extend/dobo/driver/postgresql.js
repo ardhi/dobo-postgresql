@@ -1,9 +1,9 @@
 async function postgresqlDriverFactory () {
-  const { KnexDriver } = this.app.doboKnex.baseClass
+  const { DoboKnexDriver } = this.app.baseClass
 
-  class PostgresqlDriver extends KnexDriver {
-    constructor (plugin, options) {
-      super(plugin)
+  class DoboPostgresqlDriver extends DoboKnexDriver {
+    constructor (plugin, name, options) {
+      super(plugin, name, options)
       this.dialect = 'postgres'
       this.adapter = 'pg'
       this.support.returning = true
@@ -48,7 +48,8 @@ async function postgresqlDriverFactory () {
     }
   }
 
-  return PostgresqlDriver
+  this.app.baseClass.DoboPostgresqlDriver = DoboPostgresqlDriver
+  return DoboPostgresqlDriver
 }
 
 export default postgresqlDriverFactory
